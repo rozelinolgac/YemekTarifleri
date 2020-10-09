@@ -59,9 +59,7 @@ class Tarifler : Fragment() {
         imageDelete.setOnClickListener{
             delete(it)
         }
-
-
-
+         
         arguments?.let {
             var gelenBilgi=TariflerArgs.fromBundle(it).bilgi
             if(gelenBilgi.equals("menudengeldim")){
@@ -103,12 +101,7 @@ class Tarifler : Fragment() {
 
                        }
                        cursor.close()
-
-
-
-
-
-                   }
+                                         }
 
                    catch (e:Exception){
                        e.printStackTrace()
@@ -120,9 +113,7 @@ class Tarifler : Fragment() {
 
         }
     }
-
-
-    fun delete(view: View){
+              fun delete(view: View){
         arguments?.let {
             val gelenId=TariflerArgs.fromBundle(it).id
 
@@ -140,19 +131,11 @@ class Tarifler : Fragment() {
 
             val action=TariflerDirections.actionTariflerToListe()
             Navigation.findNavController(view).navigate(action)
-        }
-
-
-    }
-
-
-
-
-
-
-
-
-    fun kaydet(view: View) {
+        }                
+              }
+    
+    
+        fun kaydet(view: View) {
         //bu kısım sql
         val yemekIsmi=yemekIsmiId.text.toString()
         val yemekMalzemeleri=tarifId.text.toString()
@@ -163,8 +146,8 @@ class Tarifler : Fragment() {
             kucukBitmap.compress(Bitmap.CompressFormat.PNG,50,outputStream)
             val byteDizisi = outputStream.toByteArray()
 
-            try {
-                context?.let {
+            try { //contextin boş gelme ihtimali var
+                context?.let {  
                 val database=it.openOrCreateDatabase("Yemekler", Context.MODE_PRIVATE,null)
                 database.execSQL("CREATE TABLE IF NOT EXISTS yemekler (id INTEGER PRIMARY KEY, yemekismi VARCHAR, yemektarifi VARCHAR, gorsel BLOB) ")
 
@@ -174,17 +157,13 @@ class Tarifler : Fragment() {
                 statement.bindString(2,yemekMalzemeleri)
                 statement.bindBlob(3,byteDizisi)
                 statement.execute()
-
-
-            }
+                  }
 
             }
             catch (e:Exception){
                 e.printStackTrace()
             }
         }
-//contextin boş gelme ihtimali var
-
 
           val action=TariflerDirections.actionTariflerToListe()
           Navigation.findNavController(view).navigate(action)
@@ -192,28 +171,13 @@ class Tarifler : Fragment() {
 
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-    fun gorselSec(view: View) {   //bu kısım ise izin kısmı
+        fun gorselSec(view: View) {   //bu kısım ise izin kısmı
         activity?.let {
             if (ContextCompat.checkSelfPermission(it.applicationContext, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
             ) //izin alındı'ya esit degilse
             {
                 requestPermissions(arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), 1)   //bu kodla iznimizi aldık
             }
-
-
 
             else {
                 val galeriIntent =
@@ -249,8 +213,7 @@ class Tarifler : Fragment() {
         if(requestCode==2 && resultCode== Activity.RESULT_OK && data!=null) {   //burada data gorselin yeri
             secilenGorsel = data.data
 
-
-            try{  //try-catch yapmanın nedeni:dosyaya çevirirken hata olabilir..görsel silinmiş ya da sd kart bozulmuş olabilir...
+             try{  //try-catch yapmanın nedeni:dosyaya çevirirken hata olabilir..görsel silinmiş ya da sd kart bozulmuş olabilir...
                 context?.let {
                     if(secilenGorsel!=null){
                         if(Build.VERSION.SDK_INT>=28){
@@ -268,17 +231,13 @@ class Tarifler : Fragment() {
 
                     }
                 }
-
-
-            }
+           }
             catch (e: Exception){
                 e.printStackTrace()
             }
         }
         
-        
-
-    }
+       }
 
     fun kucukBitmapOlustur(kullanicininYolladigiBitmap:Bitmap,maximumBoyut:Int):Bitmap{
         var width=kullanicininYolladigiBitmap.width
@@ -299,16 +258,6 @@ class Tarifler : Fragment() {
             width=kisaltilmisWidth.toInt()
 
         }
-
-
     return Bitmap.createScaledBitmap(kullanicininYolladigiBitmap,width,height,true)
-
-    }
-
-
-
-
-
-
-
+       }
 }
