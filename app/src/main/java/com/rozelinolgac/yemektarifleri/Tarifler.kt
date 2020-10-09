@@ -128,11 +128,13 @@ class Tarifler : Fragment() {
 
             context?.let {
                 val db=it.openOrCreateDatabase("Yemekler",Context.MODE_PRIVATE,null)
-                val sqlString="DELETE FROM  yemekler WHERE id=?"
+             val sqlString="DELETE FROM  yemekler WHERE id=?"
                 val statement =db.compileStatement(sqlString)
                 statement.bindString(1,gelenId.toString())
                 statement.execute()
 
+
+              //  db.execSQL("DELETE FROM yemekler WHERE id=?",arrayOf(gelenId.toString()))  ... Alternatif
 
             }
 
